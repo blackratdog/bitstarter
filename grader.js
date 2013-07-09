@@ -63,6 +63,13 @@ var clone = function(fn) {
     return fn.bind({});
 };
 
+ function validate(file)
+    {
+      var checkJson = checkHtmlFile(file, program.checks);
+      var outJson = JSON.stringify(checkJson, null, 4);
+      console.log(outJson);
+    }
+
 if(require.main == module) {
     program
         .option('-c, --checks <check_file>', 'Path to checks.json', clone(assertFileExists), CHECKSFILE_DEFAULT)
@@ -74,26 +81,22 @@ if(require.main == module) {
       rest.get(url).on('complete', function(result, response)
       {
         fs.writeFile("url.html", result);
-        validate("url.html", program.checks);
+        validate("url.html");
 
       }
         );
     }
 
-    else
+  else
     {
-      validate(program.file, program.checks);
+      validate(program.file);
     }
 
-    function validate(file, program.checks)
-    {
-      var checkJson = checkHtmlFile(file, program.checks);
-      var outJson = JSON.stringify(checkJson, null, 4);
-      console.log(outJson);
+  }
 
+   
      
   else {
       exports.checkHtmlFile = checkHtmlFile;
     }
-  }
-}
+ 
