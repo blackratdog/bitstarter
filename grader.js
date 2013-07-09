@@ -30,7 +30,8 @@ var rest = require('restler');
 
 var assertFileExists = function(infile) {
     var instr = infile.toString();
-    if(!fs.existsSync(instr)) {
+    if(!
+      (instr)) {
         console.log("%s does not exist. Exiting.", instr);
         process.exit(1); // http://nodejs.org/api/process.html#process_process_exit_code
     }
@@ -66,11 +67,33 @@ if(require.main == module) {
     program
         .option('-c, --checks <check_file>', 'Path to checks.json', clone(assertFileExists), CHECKSFILE_DEFAULT)
         .option('-f, --file <html_file>', 'Path to index.html', clone(assertFileExists), HTMLFILE_DEFAULT)
-        .option('-u, --url <URL>', 'Path to url')
+        .option('-u, --url <url>', 'Path to url')
         .parse(process.argv);
-    var checkJson = checkHtmlFile(program.file, program.checks);
-    var outJson = JSON.stringify(checkJson, null, 4);
-    console.log(outJson);
-} else {
-    exports.checkHtmlFile = checkHtmlFile;
+    if (program.url)
+    {
+      rest.get(url).on('complete', function(result, response)
+      {
+        fs.writeFile("url.html", result);
+        validate("url.html", program.checks);
+
+      }
+        );
+    }
+
+    else
+    {
+      validate(program.file, program.checks);
+    }
+
+    function validate(file, program.checks)
+    {
+      var checkJson = checkHtmlFile(file, program.checks);
+      var outJson = JSON.stringify(checkJson, null, 4);
+      console.log(outJson);
+
+     
+  else {
+      exports.checkHtmlFile = checkHtmlFile;
+    }
+  }
 }
