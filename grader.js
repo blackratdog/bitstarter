@@ -78,7 +78,7 @@ if(require.main == module) {
         .parse(process.argv);
     if (program.url)
     {
-      rest.get(url).on('complete', function(result, response)
+      rest.get(program.url).on('complete', function(result, response)
       {
         fs.writeFile("url.html", result);
         validate("url.html");
