@@ -80,7 +80,7 @@ if(require.main == module) {
     {
       rest.get(program.url).on('complete', function(result, response)
       {
-        fs.writeFile("url.html", result);
+        fs.writeFileSync("url.html", result);
         validate("url.html");
 
       }
